@@ -18,17 +18,19 @@
     <div class="info">
         <b>Usergrid verification script</b>
         <br/>
-        This page will run tests against Usergrid using the Usergrid Javascript SDK.
-        Enter the relevant info below. Fields left blank will will use defaults.
+        <ul>
+        <li>This page will run tests against a Usergrid API using the Usergrid Javascript SDK.</li>
+        <li>It will only work against an org/app with sandbox permissions (e.g. get,post,put,delete on Guest role).</li>
+        <li>Enter the relevant info below. Fields left blank will will use defaults.</li>
+        </ul>
     </div>
     <div id="main" class="main">
-        <div class="section-header">README sample code tests</div>
         <div class="well">
             <div id="name-control" class="control-group">
                 <div class="controls">
                     <div class="form-group">
                         <label for="URL">API URL</label>
-                        <input class="form-control" placeholder="http://api.usergrid.com" type="text" id="URL">
+                        <input class="form-control" placeholder="https://api.usergrid.com" type="text" id="URL">
                     </div>
                     <div class="form-group">    
                         <label for="org">Org Name</label>
