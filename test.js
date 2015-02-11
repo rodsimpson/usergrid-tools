@@ -225,7 +225,9 @@ $(document).ready(function () {
                     createNewEntityNoName(step, arg);
                     break;
                 default:
-                    $('#status').html('Test is now complete. Passed: ' + successCount + ' &nbsp; Failed: ' + errorCount);
+                    $('#status').html('Test is now complete');
+                    $('#status-passed').html('Passed: ' + successCount);
+                    $('#status-failed').html('Failed: ' + errorCount);
                     notice('-----test complete!-----');
                     notice('Success count= ' + successCount);
                     notice('Error count= ' + errorCount);
@@ -238,6 +240,7 @@ $(document).ready(function () {
     //logging functions
     function success(message){
         successCount++;
+        $('#status-passed').html('Passed: ' + successCount);
         if (logSuccess && runtests) {
             console.log('SUCCESS: ' + message);
             var html = $('#test-output').html();
@@ -248,6 +251,7 @@ $(document).ready(function () {
 
     function error(message){
         errorCount++
+        $('#status-failed').html('Failed: ' + errorCount);
         if (logError && runtests) {
             console.log('ERROR: ' + message);
             var html = $('#test-output').html();

@@ -95,6 +95,20 @@ pre{
     font-weight: bold;
     font-size: 16px;
 }
+.status-passed{
+    padding-left: 10px;
+    padding-top: 2px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #00aa00;
+}
+.status-failed{
+    padding-left: 10px;
+    padding-top: 2px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #aa0000;
+}
 .output {
     height: 210px;
     max-height: 210px;
