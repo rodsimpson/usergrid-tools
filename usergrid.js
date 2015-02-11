@@ -83,14 +83,16 @@ UsergridEventable.mixin = function(destObject) {
         return args;
     };
     Logger.prototype.log = function() {
-        var args = [].slice.call(arguments);
-        method = args.shift();
-        if (Logger.METHODS.indexOf(method) === -1) {
-            method = "log";
+        if(0) {
+            var args = [].slice.call(arguments);
+            method = args.shift();
+            if (Logger.METHODS.indexOf(method) === -1) {
+                method = "log";
+            }
+            if (!(this.logEnabled && console && console[method])) return;
+            args = this.prefix(method, args);
+            console[method].apply(console, args);
         }
-        if (!(this.logEnabled && console && console[method])) return;
-        args = this.prefix(method, args);
-        console[method].apply(console, args);
     };
     Logger.prototype.setLogEnabled = function(logEnabled) {
         this.logEnabled = logEnabled || true;

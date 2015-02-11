@@ -16,13 +16,6 @@
 //
 
 /**
-* Test suite for all the examples in the readme
-*
-* NOTE: No, this test suite doesn't use the traditional format for
-* a test suite.  This is because the goal is to require as little
-* alteration as possible during the copy / paste operation from this test
-* suite to the readme file.
-*
 * @author rod simpson (rod@apigee.com)
 */
 

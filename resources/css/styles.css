@@ -109,6 +109,13 @@ pre{
     font-size: 16px;
     color: #aa0000;
 }
+.status-count{
+    padding-left: 10px;
+    padding-top: 2px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #00aa00;
+}
 .output {
     height: 210px;
     max-height: 210px;
