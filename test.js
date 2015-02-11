@@ -59,7 +59,7 @@ $(document).ready(function () {
     $('#reset-button').bind('click', function() {
         runtests = false;
         $('#start-button').prop( "disabled", false );
-        $('#test-output').html('// Press Start button to begin');
+        $('#test-output').html('// Test output will be displayed here');
         $('#status').html('Press Start button to begin');
     });
         
