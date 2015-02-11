@@ -51,8 +51,7 @@ $(document).ready(function () {
         if (org_in.length > 0) {
             app = app_in;
         }
-        notice('Starting API Test');
-        notice('Using this API: ' + URL + org + '/' + app);
+        notice('Starting API Test using: ' + URL + org + '/' + app);
         runner(0);
     });
 
