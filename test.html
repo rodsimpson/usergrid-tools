@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Usergrid Verification Tests</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="resources/css/bootstrap.css"/>
+    <link rel="stylesheet" href="resources/css/styles.css"/>
+    <script src="resources/js/jquery-v1.8.3.min.js" type="text/javascript"></script>
+    <script src="usergrid.js" type="text/javascript"></script>
+    <script src="test.js" type="text/javascript"></script>
+    <script type="text/javascript"></script>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <img src="resources/images/usergrid_200.png">
+    </div>
+    <div class="info">
+        <b>Usergrid verification script</b>
+        <br/>
+        This page will run tests against Usergrid using the Usergrid Javascript SDK.
+        Enter the relevant info below. Fields left blank will will use defaults.
+    </div>
+    <div id="main" class="main">
+        <div class="section-header">README sample code tests</div>
+        <div class="well">
+            <div id="name-control" class="control-group">
+                <div class="controls">
+                    <div class="form-group">
+                        <label for="URL">API URL</label>
+                        <input class="form-control" placeholder="http://api.usergrid.com" type="text" id="URL">
+                    </div>
+                    <div class="form-group">    
+                        <label for="org">Org Name</label>
+                        <input class="form-control" placeholder="yourorgname" type="text" id="org">
+                    </div>
+                    <div class="form-group">
+                        <label for="app">App Name</label>
+                        <input class="form-control" placeholder="sandbox" type="text" id="app">
+                    </div>
+                    <button class="btn btn-primary" id="start-button" style="width: 90px;">Start</button>
+                    <button class="btn btn-primary" id="reset-button" style="width: 90px;">Reset</button>
+                    <span class="status" id="status">Press Start button to begin</span>
+                    <span style="clear: both;">&nbsp;</span>
+                </div>
+            </div>
+        </div>
+        <div class="section-header"><b>Test Output</b></div>
+        <div class="well pre-scrollable output">
+            <pre id="test-output">// Press Start button to begin</pre>
+        </div>
+    </div>
+</div>
+</body>
+</html>
