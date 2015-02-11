@@ -33,7 +33,7 @@ $(document).ready(function () {
         runtests = true;
         $('#start-button').prop( "disabled", true );
         $('#test-output').html('');
-        $('#status').html('Test is now running');
+        $('#status').html('Now counting entities..');
         var URL_in = $('#URL').val();
         if (URL_in.length > 0) {
             URL = URL_in;
@@ -166,6 +166,7 @@ $(document).ready(function () {
                         }
                         else {
                             $('#start-button').prop( "disabled", false );
+                            $('#status').html('Counting complete.');
                             cb(null, results);
                         }
                     }
