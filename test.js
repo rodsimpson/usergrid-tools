@@ -93,7 +93,7 @@ $(document).ready(function () {
     function runner(step, arg, arg2){
         
         if (runtests) {
-            $('#status').html('Test is now running step ' + step + ' of 32' );
+            $('#status').html('Now running test ' + step + ' of 32' );
             step++;
             switch (step) {
                 case 1:
@@ -225,7 +225,7 @@ $(document).ready(function () {
                     createNewEntityNoName(step, arg);
                     break;
                 default:
-                    $('#status').html('Test is now complete!');
+                    $('#status').html('Test is now complete. Passed: ' + successCount + ' &nbsp; Failed: ' + errorCount);
                     notice('-----test complete!-----');
                     notice('Success count= ' + successCount);
                     notice('Error count= ' + errorCount);
