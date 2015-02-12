@@ -37,7 +37,7 @@ $(document).ready(function () {
         logging: false, //optional - turn on logging, off by default
         buildCurl: false //optional - turn on curl commands, off by default
     });
-    
+    ugClient.logout();
     //call the function to start the process
     $('#start-button').bind('click', function() {
         runtests = true;
@@ -68,8 +68,10 @@ $(document).ready(function () {
         var options = {"type":collectionType, qs:{limit:limit}};
 
         ugClient.URI = URL;
-        
-        notice('Starting API Test using: ' + URL + org + '/' + app);
+        ugClient.orgName = org;
+        ugClient.appName = app;
+
+        notice('Count test will use: ' + URL + org + '/' + app);
         ugCollectionForEachPaging (ugClient, options, f);
     });
 
@@ -93,6 +95,7 @@ $(document).ready(function () {
     $('#login-submit-button').bind('click', function() {
         var username = $('#username').val();
         var password = $('#password').val();
+        ugClient.logout();
         ugClient.adminLogin(username, password, function(err) {
             if (err) {
                 alert("login failed");
@@ -129,7 +132,7 @@ $(document).ready(function () {
                 str = str.substr(0, str.length - 1);
             }
         }
-        return str + '/';
+        return str;
     }
 
     //logging functions
