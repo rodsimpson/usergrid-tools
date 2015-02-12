@@ -27,13 +27,26 @@ $(document).ready(function () {
     var collectionType = "books";
     var runtests = true;
     var count = 0;
+    var limit = 10;
+    var batch = 0;
+
+    var ugClient = new Usergrid.Client({
+        orgName:org,
+        appName:app,
+        URL:URL,
+        logging: false, //optional - turn on logging, off by default
+        buildCurl: false //optional - turn on curl commands, off by default
+    });
     
     //call the function to start the process
     $('#start-button').bind('click', function() {
         runtests = true;
+        count = 0;
+        batch = 0;
         $('#start-button').prop( "disabled", true );
         $('#test-output').html('');
-        $('#status').html('Now counting entities..');
+        $('#status').html('Now counting entities...');
+        $('#status-count').html('Count: ' + count);
         var URL_in = $('#URL').val();
         if (URL_in.length > 0) {
             URL = URL_in;
@@ -52,29 +65,58 @@ $(document).ready(function () {
             collectionType = collectionType_in;
         }
         
-        var options = {"type":collectionType, qs:{limit:100}};
+        var options = {"type":collectionType, qs:{limit:limit}};
 
-        var ugClient = new Usergrid.Client({
-            orgName:org,
-            appName:app,
-            URL:URL,
-            logging: false, //optional - turn on logging, off by default
-            buildCurl: false //optional - turn on curl commands, off by default
-        });
+        ugClient.URI = URL;
         
         notice('Starting API Test using: ' + URL + org + '/' + app);
-        ugCollectionForEachPaging (ugClient, options, f, doneCB);
+        ugCollectionForEachPaging (ugClient, options, f);
     });
 
     $('#reset-button').bind('click', function() {
         runtests = false;
         count = 0;
+        batch = 0;
         $('#start-button').prop( "disabled", false );
         $('#test-output').html('// Test output will be displayed here');
         $('#status').html('Press Start button to begin');
         $('#status-count').html('Count: ' + count);
     });
 
+    $('#show-login-button').bind('click', function() {
+        $('#login-form').css( "display", "block" );
+    });
+    $('#show-token-button').bind('click', function() {
+        $('#token-form').css( "display", "block" );
+    });
+    
+    $('#login-submit-button').bind('click', function() {
+        var username = $('#username').val();
+        var password = $('#password').val();
+        ugClient.adminLogin(username, password, function(err) {
+            if (err) {
+                alert("login failed");
+            } else {
+                alert("success! Token Acquired and will be used for all future calls.");
+                $('#login-form').css( "display", "none" );
+            }
+        });
+    });
+    $('#login-cancel-button').bind('click', function() {
+        $('#login-form').css( "display", "none" );
+    });
+    
+    $('#token-submit-button').bind('click', function() {
+        var token = $('#token').val();
+        ugClient.setToken(token);
+        $('#token').val('');
+        $('#token-form').css( "display", "none" );
+        alert("token accepted");
+    });
+    $('#token-cancel-button').bind('click', function() {
+        $('#token-form').css( "display", "none" );
+    });
+    
     var logSuccess = true;
     var successCount = 0;
     var logError = true;
@@ -132,20 +174,17 @@ $(document).ready(function () {
      * @param ugClient - the authenticated client object
      * @param options - the options for a collection. Pass type and qs.
      * @param f - function called with each UG entity. Accepts a single argument.
-     * @param doneCb - called in case of error or success.
      *
      *********************************************/
-    function ugCollectionForEachPaging (ugClient, options, f, doneCb) {
+    function ugCollectionForEachPaging (ugClient, options, f) {
         var results = {count: 0, failCount: 0};
-        if ( ! options.type) {
-            doneCb(new Error('missing type property in the options argument'), null);
-        }
         ugClient.createCollection(options, function (e, response, collection) {
             if (runtests) {
                 var e2;
-                function doOnePage(collection, cb) {
+                function doOnePage(collection) {
                     if (runtests) {
-                        success("Got a page of entities");
+                        batch++;
+                        $('#status').html('Working on batch number '+batch+ '..');
                         while (collection.hasNextEntity()) {
                             if (runtests) {
                                 f(collection.getNextEntity(), results);
@@ -155,43 +194,30 @@ $(document).ready(function () {
                         if (collection.hasNextPage() && runtests) {
                             collection.getNextPage(function (e) {
                                 if (e) {
-                                    e2 = new Error('could not get next page of entities');
-                                    e2.wrappedError = e;
-                                    cb(e2, results);
+                                    error('could not get next page of entities');
                                 }
                                 else {
-                                    doOnePage(collection, cb);
+                                    doOnePage(collection);
                                 }
                             });
                         }
                         else {
                             $('#start-button').prop( "disabled", false );
                             $('#status').html('Counting complete.');
-                            cb(null, results);
                         }
                     }
                 }
 
                 if (e) {
-                    e2 = new Error('could not make or get collection');
-                    e2.wrappedError = e;
-                    doneCb(e2, null);
+                    error('could not make or get collection');
                 }
                 else {
-                    doOnePage(collection, doneCb);
+                    doOnePage(collection);
                 }
             }
         });
     }
 
-    var doneCB = function(error, results){
-        try {
-            console.log("error = " + error);
-        } catch (e) {}
-        try {
-            console.log("total = " + results.count);
-        } catch (e) {}
-    }
 
     var f = function(entity, results){
         count++;

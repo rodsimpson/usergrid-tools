@@ -89,6 +89,14 @@ pre{
 .left{
    float: left;
 }
+.login-link {
+    float: right; 
+    padding-right: 20px;
+    padding-top: 5px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #aa0000;
+}
 .status{
     padding-left: 20px;
     padding-top: 2px;

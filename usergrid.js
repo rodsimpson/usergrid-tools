@@ -1054,6 +1054,35 @@ function doCallback(callback, params, context) {
             doCallback(callback, [ err, response, user ]);
         });
     };
+
+    Usergrid.Client.prototype.adminLogin = function(username, password, callback) {
+        var self = this;
+        var options = {
+            method: "POST",
+            endpoint: "management/token",
+            mQuery:true,
+            body: {
+                username: username,
+                password: password,
+                grant_type: "password"
+            }
+        };
+        self.request(options, function(err, response) {
+            var user = {};
+            if (err) {
+                if (self.logging) console.log("error trying to log user in");
+            } else {
+                var options = {
+                    client: self,
+                    data: response.user
+                };
+                user = new Usergrid.Entity(options);
+                self.setToken(response.access_token);
+            }
+            doCallback(callback, [ err, response, user ]);
+        });
+    };
+    
     Usergrid.Client.prototype.reAuthenticateLite = function(callback) {
         var self = this;
         var options = {
